@@ -1,86 +1,52 @@
-/*
-  LiquidCrystal Library - scrollDisplayLeft() and scrollDisplayRight()
 
- Demonstrates the use a 16x2 LCD display.  The LiquidCrystal
- library works with all LCD displays that are compatible with the
- Hitachi HD44780 driver. There are many of them out there, and you
- can usually tell them by the 16-pin interface.
-
- This sketch prints "Hello World!" to the LCD and uses the
- scrollDisplayLeft() and scrollDisplayRight() methods to scroll
- the text.
-
-  The circuit:
- * LCD RS pin to digital pin 12
- * LCD Enable pin to digital pin 11
- * LCD D4 pin to digital pin 5
- * LCD D5 pin to digital pin 4
- * LCD D6 pin to digital pin 3
- * LCD D7 pin to digital pin 2
- * LCD R/W pin to ground
- * 10K resistor:
- * ends to +5V and ground
- * wiper to LCD VO pin (pin 3)
-
- Library originally added 18 Apr 2008
- by David A. Mellis
- library modified 5 Jul 2009
- by Limor Fried (http://www.ladyada.net)
- example added 9 Jul 2009
- by Tom Igoe
- modified 22 Nov 2010
- by Tom Igoe
-
- This example code is in the public domain.
-
- http://www.arduino.cc/en/Tutorial/LiquidCrystalScroll
-
- */
 
 // include the library code:
 #include <LiquidCrystal.h>
+
+// custom stuff.
+byte smiley[8] = {
+  B00000,
+  B10001,
+  B00000,
+  B00000,
+  B10001,
+  B01110,
+  B00000,
+};
 
 // initialize the library with the numbers of the interface pins
 LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
 
 void setup() {
+
+  // set up special characters
+  lcd.createChar(0, smiley);
+
   // set up the LCD's number of columns and rows:
   lcd.begin(16, 2);
-  // Print a message to the LCD.
-  lcd.print("rawr!");
-  delay(1000);
+
+  lcd.write("abcdefghijklmnopqrstuvwxyz");
+  lcd.home();
+  lcd.write("123");
+  lcd.setCursor(0, 1);
+  lcd.print("73%");
+  lcd.write(byte(0)); 
+  lcd.print(byte(0)); 
+
+
+/*
+  delay(2000);
+  lcd.noDisplay();
+  delay(2000);
+  lcd.display();
+  lcd.clear();
+  lcd.write(byte(0)); 
+*/
+
 }
 
 void loop() {
-  // scroll 13 positions (string length) to the left
-  // to move it offscreen left:
-  for (int positionCounter = 0; positionCounter < 13; positionCounter++) {
-    // scroll one position left:
-    lcd.scrollDisplayLeft();
-    // wait a bit:
-    delay(150);
-  }
 
-  // scroll 29 positions (string length + display length) to the right
-  // to move it offscreen right:
-  for (int positionCounter = 0; positionCounter < 29; positionCounter++) {
-    // scroll one position right:
-    lcd.scrollDisplayRight();
-    // wait a bit:
-    delay(150);
-  }
-
-  // scroll 16 positions (display length + string length) to the left
-  // to move it back to center:
-  for (int positionCounter = 0; positionCounter < 16; positionCounter++) {
-    // scroll one position left:
-    lcd.scrollDisplayLeft();
-    // wait a bit:
-    delay(150);
-  }
-
-  // delay at the end of the full loop:
-  delay(1000);
 
 }
 
@@ -104,7 +70,53 @@ void loop() {
 
 void display() {
 
+}
 
 
 
+/* NOTES
 
+The docs can be found here:
+https://www.arduino.cc/en/Reference/LiquidCrystal
+
+
+POSITIONING THE CURSOR
+  lcd.clear()  // clears the display and positions cursor at top left.
+  lcd.home()   // send cursor to top left.
+  lcd.setCursor(col, row)  // zero indexed, of course.
+
+
+PRINTING STUFF
+  lcd.write("abc")  // writes text or other data to that spot.
+  lcd.print("abc")  // only works with text.
+
+CUSTOM CHARACTERS
+  you can only have 8 custom characters, with indexes 0-7
+  byte smiley[8] = {
+    B00000,
+    B10001,
+    B00000,
+    B00000,
+    B10001,
+    B01110,
+    B00000,
+  };
+  lcd.createChar(0, smiley);
+  lcd.write(byte(0)); 
+
+
+SCROLLING THE DISPLAY
+  lcd.scrollDisplayLeft()    // one character left
+  lcd.scrollDisplayRight()   // one character right
+
+
+DISPLAYING THE CURSOR
+  a blinking square cursor
+    lcd.blink()
+    lcd.noBlink()
+  a non-blinking underine cursor
+    lcd.cursor()
+    lcd.noCursor()
+
+
+*/
