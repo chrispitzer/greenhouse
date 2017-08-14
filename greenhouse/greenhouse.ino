@@ -1,7 +1,10 @@
-
-
 // include the library code:
 #include <LiquidCrystal.h>
+// can't get this to work.... #include "libraries/LiquidCrystal/LiquidCrystal.h"
+#include "libraries/dht/dht.h"
+
+
+
 
 // custom stuff.
 byte smiley[8] = {
