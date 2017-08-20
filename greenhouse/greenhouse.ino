@@ -1,6 +1,6 @@
 // include the library code:
 // #include <LiquidCrystal.h>
-#include "lib/LiquidCrystal/src/LiquidCrystal.h"
+#include "libraries/LiquidCrystal/src/LiquidCrystal.h"
 // can't get this to work.... #include "libraries/LiquidCrystal/LiquidCrystal.h"
 // #include "libraries/dht/dht.h"
 
