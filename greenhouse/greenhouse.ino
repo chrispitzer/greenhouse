@@ -1,10 +1,16 @@
 // include the library code:
-// #include <LiquidCrystal.h>
-#include "src/LiquidCrystal/LiquidCrystal.h"
+#include <LiquidCrystal.h>
+// #include "src/LiquidCrystal/LiquidCrystal.h"
+// #include "src/DHT/DHT.h"
 // can't get this to work.... #include "libraries/LiquidCrystal/LiquidCrystal.h"
 // #include "libraries/dht/dht.h"
 
 
+// #include <DHT.h>
+
+// #define DHTPIN 2    // modify to the pin we connected
+// #define DHTTYPE DHT21   // AM2301
+// DHT dht(DHTPIN, DHTTYPE);
 
 
 // custom stuff.
@@ -89,7 +95,7 @@ void loop() {
       lcd.print("select");
       break;
     default:
-      lcd.print("nothing???");
+      lcd.print("nothing??");
       break;
   }
 }
