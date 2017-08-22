@@ -1,7 +1,7 @@
 #include <LiquidCrystal.h>
 
 #include <DHT.h>
-#define DHTPIN 2    // modify to the pin we connected
+#define DHTPIN 13    // modify to the pin we connected
  
 #define DHTTYPE DHT21   // AM2301 
 DHT dht(DHTPIN, DHTTYPE);
@@ -36,6 +36,8 @@ LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
 
 void setup() {
 
+  dht.begin();
+
   // set up special characters
   lcd.createChar(0, smiley);
 
@@ -63,12 +65,15 @@ void setup() {
 }
 
 void loop() {
+
   buttonPressedThisLoop = readButtons();
   if(buttonPressedThisLoop == buttonPressedLastLoop) {
     return;
   }
   buttonPressedLastLoop = buttonPressedThisLoop;
 
+  float h = dht.readHumidity();
+  float t = dht.readTemperature();
   lcd.clear();
 
   switch (buttonPressedThisLoop) {
@@ -88,9 +93,20 @@ void loop() {
       lcd.print("select");
       break;
     default:
-      lcd.print("nothing??");
+      lcd.print("nothing?");
       break;
   }
+  
+  lcd.setCursor(0, 1);
+  if (isnan(t) || isnan(h)) 
+  {
+    lcd.print("(no readings)");
+    return;
+  }
+  lcd.print(h);
+  lcd.print("% ");
+  lcd.print(t);
+  lcd.print("deg.");
 }
 
 int readButtons() {
