@@ -1,6 +1,6 @@
 // include the library code:
 // #include <LiquidCrystal.h>
-#include "libraries/LiquidCrystal/src/LiquidCrystal.h"
+#include "src/LiquidCrystal/LiquidCrystal.h"
 // can't get this to work.... #include "libraries/LiquidCrystal/LiquidCrystal.h"
 // #include "libraries/dht/dht.h"
 
@@ -89,7 +89,7 @@ void loop() {
       lcd.print("select");
       break;
     default:
-      lcd.print("nothing??");
+      lcd.print("nothing???");
       break;
   }
 }
