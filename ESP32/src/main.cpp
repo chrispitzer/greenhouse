@@ -61,7 +61,7 @@ void setup() {
   pinMode(BACKWARDS_ASS_ONBOARD_LED, OUTPUT);
 
   // FIXME - this is just to give you time to connect a serial monitor
-  count_down(5);
+  count_down(6);
 
   delay(2000);
   Serial.print("Connecting to ");
