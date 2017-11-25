@@ -26,13 +26,21 @@ ported for sparkfun esp32
 
 #include <Arduino.h>
 #include <WiFi.h>
+#include <DHT.h>
 
-const char* ssid     = "SCIENCE! (2.4GHz)";
+const char* ssid     = "Science Camp (2.4ghz)";
 const char* password = "supersecret";
+
+#define TOP_SENSOR_PIN 21 
+#define DHTTYPE DHT21 // DHT 21 (AM2301)
+#define USE_CENTIGRADE true
 
 #define BACKWARDS_ASS_ONBOARD_LED 5   //LED connected to digital pin 5
 
+
+// Pre setup() initialization stuff.
 WiFiServer server(80);
+DHT some_sensor(TOP_SENSOR_PIN, DHTTYPE);
 
 int counter = 0;
 
@@ -61,7 +69,7 @@ void setup() {
   pinMode(BACKWARDS_ASS_ONBOARD_LED, OUTPUT);
 
   // FIXME - this is just to give you time to connect a serial monitor
-  count_down(6);
+  count_down(3);
 
   delay(2000);
   Serial.print("Connecting to ");
@@ -73,6 +81,8 @@ void setup() {
   Serial.print("LOW is ");
   Serial.print(LOW);
 
+  // temperatore / rh sensors
+  pinMode(TOP_SENSOR_PIN, INPUT);
 
   WiFi.begin(ssid, password);
 
@@ -91,6 +101,10 @@ void setup() {
 
 void loop()
 {
+
+  // read values from the sensor
+  float humidity = some_sensor.readHumidity();
+  float temperature = some_sensor.readTemperature(USE_CENTIGRADE);
 
   WiFiClient client = server.available(); // listen for incoming clients
 
@@ -120,6 +134,10 @@ void loop()
             // the content of the HTTP response follows the header:
             client.print("Click <a href=\"/H\">here</a> to turn the LED on pin 5 on.<br>");
             client.print("Click <a href=\"/L\">here</a> to turn the LED on pin 5 off.<br>");
+            client.print("<br><br>H: ");
+            client.print(String(humidity));
+            client.print("<br>T: ");
+            client.print(String(temperature));
 
             // The HTTP response ends with another blank line:
             client.println();
